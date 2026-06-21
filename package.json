@@ -1,0 +1,13 @@
+{
+  "name": "authlogin",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Root entry so the backend deploys from the repo root (Render).",
+  "scripts": {
+    "start": "node backend/server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  }
+}
