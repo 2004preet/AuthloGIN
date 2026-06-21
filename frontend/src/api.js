@@ -1,6 +1,8 @@
 // Small wrapper around the backend API.
-// Uses Vite's dev proxy so calls go to the Express server on :5000.
-const BASE = "/api";
+// Dev: empty base -> "/api" hits Vite's proxy to the local Express server.
+// Prod (Vercel): set VITE_API_BASE to the deployed backend URL, e.g.
+//   VITE_API_BASE=https://authlogin-backend.onrender.com
+const BASE = `${import.meta.env.VITE_API_BASE || ""}/api`;
 
 async function request(path, options = {}) {
   const res = await fetch(`${BASE}${path}`, {

@@ -1,0 +1,11 @@
+# Render blueprint — deploys the Express backend as an always-on web service.
+# Import this repo at https://render.com/deploy and Render reads this file.
+services:
+  - type: web
+    name: authlogin-backend
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/users
