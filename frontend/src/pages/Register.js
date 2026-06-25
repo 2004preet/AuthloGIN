@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { registerUser } from "../services/api";
+import { registerUser, loginUser } from "../services/api";
+import { useAuth } from "../context/AuthContext";
 
 export default function Register() {
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const [errors, setErrors] = useState({});
@@ -43,10 +45,13 @@ export default function Register() {
     }
     setLoading(true);
     try {
-      const data = await registerUser(form);
-      setServerMessage({ type: "success", text: data.message });
-      setForm({ name: "", email: "", password: "" });
-      setTimeout(() => navigate("/login"), 1500);
+      await registerUser(form);
+      const loginData = await loginUser({
+        email: form.email,
+        password: form.password,
+      });
+      login(loginData.user, loginData.token);
+      navigate("/dashboard", { replace: true });
     } catch (err) {
       setServerMessage({ type: "error", text: err.message });
     } finally {
